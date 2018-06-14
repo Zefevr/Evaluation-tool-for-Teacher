@@ -1,37 +1,27 @@
 import React, {PureComponent} from 'react'
-import { connect } from 'react-redux'
-import { createBatch } from '../../actions/batches'
 import Paper from "@material-ui/core/Paper"
 import Button from '@material-ui/core/Button'
 import TextField from "@material-ui/core/TextField"
 
-class CreateBatch extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      batch_id: '',
-      startDate: '',
-      endDate: ''
-    }
-    // this.handleChange = this.handleChange.bind(this);
-		
-  }
+
+export default class CreateBatchForm extends PureComponent {
+	state = {}
 
 	handleSubmit = (e) => {
 	  e.preventDefault()
-	  this.props.createBatch(this.state)
+      this.props.onSubmit(this.state)
+      console.log(this.state)
 	}
 
 	handleChange = (event) => {
 	  const {name, value} = event.target
 
 	  this.setState({
-		  [name]: value
+	    [name]: value
 	  })
 	}
 
 	render() {
-
 	  return (
 	    <Paper className="styles">
 	      <h3>Create new Class</h3>
@@ -71,8 +61,7 @@ class CreateBatch extends PureComponent {
 	        </Button>
 	      </form>
 	    </Paper>
+			
 	  )
 	}
 }
-
-export default connect(null, {createBatch})(CreateBatch)

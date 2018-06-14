@@ -21,6 +21,7 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
     return customName;
   }
 
+
   relationName(propertyName: string): string {
     return snakeCase(propertyName);
   }
