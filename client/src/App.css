@@ -18,6 +18,15 @@
   justify-content: center;
 }
 
+.batches {
+  margin-top: 5em;
+  color: rgb(12, 2, 2);
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .loginButton {
   margin-bottom: 10px !important;
   margin-top: 20px !important

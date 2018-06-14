@@ -1,27 +1,36 @@
 import * as request from 'superagent'
-import { BASE_URL } from '../constants'
+import {baseUrl} from '../constants'
 
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILED = 'LOGIN_FAILED'
 
-export const login = (email, password) => dispatch => {
+
+export const LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const LOGIN_FAILED = 'USER_LOGIN_FAILED'
+
+export const USER_LOGOUT = 'USER_LOGOUT'
+
+
+export const logout = () => ({
+  type: USER_LOGOUT
+})
+
+export const login = (email, password) => (dispatch) =>
   request
-    .post(`${BASE_URL}/logins`)
-    .send({ email, password })
-    .then(response => {
+    .post(`${baseUrl}/logins`)
+    .send({email, password})
+    .then(result => {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: response.body
+        payload: result.body
       })
     })
-    .catch(error => {
-      if (error.status === 400) {
-        dispatch({
-          type: LOGIN_FAILED,
-          payload: error.response.body.message || 'Unknown error'
-        })
-      } else {
-        console.log(error)
-      }
+    .catch(err => {
+    	if (err.status === 400) {
+    		dispatch({
+    			type: LOGIN_FAILED,
+    			payload: err.response.body.message || 'Unknown error'
+    		})
+    	}
+    	else {
+    		console.error(err)
+    	}
     })
-}
