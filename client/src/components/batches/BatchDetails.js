@@ -6,6 +6,7 @@ import CreateStudent from "./CreateStudent";
 import { Link, Redirect } from "react-router-dom";
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
+import "../../App.css";
 
 
 class BatchDetails extends PureComponent {
@@ -33,13 +34,13 @@ class BatchDetails extends PureComponent {
   }
 
   pickRandomStudent() {
-    const studentsWithColors = this.props.batch.students.filter(student => student.lastColor !== null)
+    const studentsWithColors = this.props.batch.students.filter(student => student.color !== null)
     const configColors = {red: 53, yellow: 28, green: 19}
 
     const studentLottery = []
 
     studentsWithColors.map((student) => {
-      const maxLoop = configColors[student.lastColor]
+      const maxLoop = configColors[student.color]
       for(let i = 0; i < maxLoop; i++) {
         studentLottery.push(student.id)
       }
@@ -62,14 +63,13 @@ class BatchDetails extends PureComponent {
     )
 
     const allStudents = batch.students.length
-    const redStudents = batch.students.filter(student => student.lastColor === 'red').length
+    const redStudents = batch.students.filter(student => student.color === 'Red').length
     const redStudentsPercentage = redStudents / allStudents * 100
-    const yellowStudents = batch.students.filter(student => student.lastColor === 'yellow').length
+    const yellowStudents = batch.students.filter(student => student.color === 'Yellow').length
     const yellowStudentsPercentage = yellowStudents / allStudents * 100
 
-    const greenStudents = batch.students.filter(student => student.lastColor === 'green').length
+    const greenStudents = batch.students.filter(student => student.color === 'Green').length
     const greenStudentsPercentage = greenStudents / allStudents * 100
-
 
     return (
       <div>
