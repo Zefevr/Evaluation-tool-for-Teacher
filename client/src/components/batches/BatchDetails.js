@@ -18,6 +18,10 @@ class BatchDetails extends PureComponent {
     }
   }
 
+  componentReload() {
+    this.props.fetchBatch(this.props.match.params.id);
+  }
+
   createStudent = student => {
     const { batch } = this.props;
     student = { ...student, batch: batch.id };
@@ -33,26 +37,7 @@ class BatchDetails extends PureComponent {
     this.props.fetchStudent(studentId);
   }
 
-  pickRandomStudent() {
-    const studentsWithColors = this.props.batch.students.filter(student => student.color !== null)
-    const configColors = {red: 53, yellow: 28, green: 19}
-
-    const studentLottery = []
-
-    studentsWithColors.map((student) => {
-      const maxLoop = configColors[student.color]
-      for(let i = 0; i < maxLoop; i++) {
-        studentLottery.push(student.id)
-      }
-
-      return {}
-    })
-
-    const askStudentId = studentLottery[Math.floor(Math.random() * studentLottery.length)]
-    const askStudent = studentsWithColors.filter(student => student.id === askStudentId)[0]
-
-    this.setState({pickedStudent: askStudent});
-  }
+  
 
   render() {
     const { batch, authenticated } = this.props;
@@ -71,20 +56,46 @@ class BatchDetails extends PureComponent {
     const greenStudents = batch.students.filter(student => student.color === 'Green').length
     const greenStudentsPercentage = greenStudents / allStudents * 100
 
+
+    const ColorArray = Array(20)
+      .fill("green")
+      .concat(Array(45).fill("red"), Array(35).fill("yellow"));
+    
+
+    let randomColor = ColorArray[Math.floor(Math.random() * ColorArray.length)];
+
+    let randomStudentId;
+
+  
+
+    if (randomColor === "Red" && redStudents.length > 0) {
+      randomStudentId = redStudents[Math.floor(Math.random() * redStudents.length)].student;
+    }
+    if (randomColor === "Green" && greenStudents.length > 0) {
+      randomStudentId = greenStudents[Math.floor(Math.random() * greenStudents.length)].student;
+    }
+    if (randomColor === "Yellow" && yellowStudents.length > 0) {
+      randomStudentId = yellowStudents[Math.floor(Math.random() * yellowStudents.length)].student;
+    } else {
+      randomStudentId = allStudents[Math.floor(Math.random() * allStudents.length)]
+    }
+    console.log(randomStudentId);
+
     return (
       <div>
         {!batch.id && <div>Loading...</div>}
         {batch.id && (
           <Paper className="styles" elevation={4}>
             <br />
-            <Button
-              color="secondary"
-              variant="raised"
-              onClick={() => this.pickRandomStudent()}
-              className="create-batch"
-            >
-                Ask a question
-            </Button>
+            <div>
+              <Link
+                className="link"
+                to={`/students/${randomStudentId}`}
+                onClick={() => this.fetchStudent(randomStudentId)}
+              >
+              Ask a Question
+              </Link>
+            </div>
 
             <h1>Batch #{batch.batchId}</h1>
 
