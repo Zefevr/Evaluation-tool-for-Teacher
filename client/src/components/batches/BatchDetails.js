@@ -22,6 +22,10 @@ class BatchDetails extends PureComponent {
     this.props.fetchBatch(this.props.match.params.id);
   }
 
+  fetchStudent(studentId) {
+    this.props.fetchStudent(studentId);
+  }
+
   createStudent = student => {
     const { batch } = this.props;
     student = { ...student, batch: batch.id };
@@ -33,11 +37,6 @@ class BatchDetails extends PureComponent {
     this.props.fetchBatch(this.props.match.params.id)
   }
 
-  fetchStudent(studentId) {
-    this.props.fetchStudent(studentId);
-  }
-
-  
 
   render() {
     const { batch, authenticated } = this.props;
@@ -56,6 +55,11 @@ class BatchDetails extends PureComponent {
     const greenStudents = batch.students.filter(student => student.color === 'Green').length
     const greenStudentsPercentage = greenStudents / allStudents * 100
 
+    const mightyReds = batch.students.filter(student => student.color === 'Red')
+    const migthyYellows = batch.students.filter(student => student.color === 'Yellow')
+    const mightyGreens = batch.students.filter(student => student.color === 'Green')
+    const mightAll = batch.students
+
 
     const ColorArray = Array(20)
       .fill("green")
@@ -68,18 +72,18 @@ class BatchDetails extends PureComponent {
 
   
 
-    if (randomColor === "Red" && redStudents.length > 0) {
-      randomStudentId = redStudents[Math.floor(Math.random() * redStudents.length)].student;
+    if (randomColor === "Red" && redStudents > 0) {
+      randomStudentId = mightyReds[Math.floor(Math.random() * mightyReds.length)].student
     }
-    if (randomColor === "Green" && greenStudents.length > 0) {
-      randomStudentId = greenStudents[Math.floor(Math.random() * greenStudents.length)].student;
+    if (randomColor === "Green" && greenStudents > 0) {
+      randomStudentId = mightyGreens[Math.floor(Math.random() * mightyGreens.length)].student
     }
-    if (randomColor === "Yellow" && yellowStudents.length > 0) {
-      randomStudentId = yellowStudents[Math.floor(Math.random() * yellowStudents.length)].student;
+    if (randomColor === "Yellow" && yellowStudents > 0) {
+      randomStudentId = migthyYellows[Math.floor(Math.random() * migthyYellows.length)].student
     } else {
-      randomStudentId = allStudents[Math.floor(Math.random() * allStudents.length)]
+      randomStudentId = mightAll[Math.floor(Math.random() * mightAll.length)]
     }
-    console.log(randomStudentId);
+    console.log(randomStudentId.id);
 
     return (
       <div>
@@ -90,8 +94,8 @@ class BatchDetails extends PureComponent {
             <div>
               <Link
                 className="link"
-                to={`/students/${randomStudentId}`}
-                onClick={() => this.fetchStudent(randomStudentId)}
+                to={`/students/${randomStudentId.id}`}
+                onClick={() => this.fetchStudent(randomStudentId.id)}
               >
               Ask a Question
               </Link>
