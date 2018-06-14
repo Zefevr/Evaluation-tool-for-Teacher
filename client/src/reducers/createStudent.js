@@ -1,19 +1,14 @@
-import {ADD_STUDENT_SUCCESS, ADD_STUDENT_FAILED} from '../actions/students'
+import {FETCHED_ALL_STUDENTS, ADD_STUDENT} from '../actions/students'
 
-export default (state = {}, action ) => {
+export default function(state = [], action ) {
   switch (action.type) {
-
-  case ADD_STUDENT_SUCCESS:
-    return {
-      success: true
-    }
-    
-  case ADD_STUDENT_FAILED:
-    return {
-      error: action.payload
-    }
-
-  default:
+  case FETCHED_ALL_STUDENTS:
+    return action.payload
+        
+  case ADD_STUDENT:
+    return [...state, action.payload]
+        
+  default: 
     return state
-  }
+  } 
 }

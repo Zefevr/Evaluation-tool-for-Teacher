@@ -1,99 +1,103 @@
-import * as request from 'superagent'
+import * as request from "superagent";
 import {baseUrl} from '../constants'
 import {logout} from './login'
 import {isExpired} from '../jwt'
 
-
-export const FETCH_EVALUATION = "FETCH_EVALUATION"
+export const FETCHED_ALL_STUDENTS = 'FETCHED_ALL_STUDENTS'
 export const FETCH_STUDENT = 'FETCH_STUDENT'
 
-export const ADD_STUDENT_SUCCESS = "ADD_STUDENT_SUCCESS"
-export const ADD_STUDENT_FAILED = "ADD_STUDENT_FAILED"
+export const ADD_STUDENT = 'ADD_STUDENT'
 
-export const DELETE_STUDENT_SUCCESS = "DELETE_STUDENT_SUCCESS"
-export const DELETE_STUDENT_FAILED = "DELETE_STUDENT_FAILED"
+export const DELETE_STUDENT = 'DELETE_STUDENT'
+
+export const UPDATE_STUDENT = 'UPDATE_STUDENT'
+
+export const ADD_EVALUATION = 'ADD_EVALUATION'
+
+
+export const fetchAllStudents = () => (dispatch, getState) => {
+  const state = getState()
+  if (!state.currentUser) return null
+  const jwt = state.currentUser.jwt
+
+  if (isExpired(jwt)) return dispatch(logout())
+  
+  request
+    .get(`${baseUrl}/students`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .then(result =>
+      dispatch({
+        type: FETCHED_ALL_STUDENTS,
+        payload: result.body.entity
+      })
+    )
+    .catch(err => alert(err));
+};
 
 export const fetchStudent = (id) => (dispatch, getState) => {
   const state = getState()
   if (!state.currentUser) return null
   const jwt = state.currentUser.jwt
-     
-  const batchId = ((window.location.href).split('/')[4])
-  console.log((window.location.href).split('/'))
-  
+
   if (isExpired(jwt)) return dispatch(logout())
   
   request
-    .get(`${baseUrl}/batches/${batchId}/students/${id}`)
+    .get(`${baseUrl}/students/${id}`)
     .set('Authorization', `Bearer ${jwt}`)
-    .then(result => 
-      dispatch({
-        type: FETCH_STUDENT,
-        payload: result.body.studentById,
-      },
-      {
-        type: FETCH_EVALUATION,
-        payload: result.body.studentById.evaluation
-      })
-    )
-    .catch(err => console.error(err))
+    .then(response => dispatch({
+      type: FETCH_STUDENT,
+      payload: response.body
+    }))
+    .catch(err => alert(err))
 }
 
-export const createStudent = (firstName, lastName, profilePicture, lastEvaluation, batch ) => (dispatch, getState) => {
-  const state = getState()
-  const jwt = state.currentUser.jwt
-
-  const batchId = ((window.location.href).split('/')[4])
-  console.log((window.location.href).split('/')[4])
-  
-  if (isExpired(jwt)) return dispatch(logout())
-  
+export const createStudent = (student) => (dispatch) => {
   request
-    .post(`${baseUrl}/batches/${batchId}/students`)
-    .send({ firstName, lastName, profilePicture, lastEvaluation, batch: batchId })
-    .then(result => {
-      dispatch({
-        type: ADD_STUDENT_SUCCESS
-      })
-    })
-    .catch(err => {
-      if (err.status === 400) {
-        dispatch({
-          type: ADD_STUDENT_FAILED,
-          payload: err.response.body.message || 'Unknown error'
-        })
-      }
-      else {
-        console.error(err)
-      }
-    })
+    .post(`${baseUrl}/students`)
+    .send(student)
+    .then(response => dispatch({
+      type: ADD_STUDENT,
+      payload: response.body.entity
+    }))
 }
 
-export const deleteStudent = (studentId) => (dispatch, getState) => {
+export const deleteStudent = studentId => (dispatch, getState) => {
   const state = getState()
+  if (!state.currentUser) return null
   const jwt = state.currentUser.jwt
 
-  const batchId = ((window.location.href).split('/')[4])
-  console.log((window.location.href).split('/')[4])
-  
-  if (isExpired(jwt)) return dispatch(logout())
-  
   request
-    .delete(`${baseUrl}/batches/${batchId}/students/${studentId}`)
-    .then(result => {
+    .delete(`${baseUrl}/students/${studentId}`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .then(response =>
       dispatch({
-        type: DELETE_STUDENT_SUCCESS
+        type: DELETE_STUDENT,
+        payload: state
       })
-    })
-    .catch(err => {
-      if (err.status === 400) {
-        dispatch({
-          type: DELETE_STUDENT_FAILED,
-          payload: err.response.body.message || 'Unknown error'
-        })
-      }
-      else {
-        console.error(err)
-      }
-    })
+    );
+};
+
+export const updateStudent = (id, updates) => (dispatch) => {
+    
+  request
+    .put(`${baseUrl}/students/${id}`)
+    .send(updates)
+    .then(response => dispatch({
+      type: UPDATE_STUDENT,
+      payload: response.body
+    }))
+}
+
+export const addLastColor = (evaluations) => (dispatch, getstate) => {
+  const state = getstate()
+  if (!state.currentUser) return null
+  const jwt = state.currentUser.jwt
+  request
+    .put(`${baseUrl}/students/${evaluations.studentId}`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .send(evaluations)
+    .then(response => dispatch({
+      type: ADD_EVALUATION,
+      payload: response.body
+    }))
 }

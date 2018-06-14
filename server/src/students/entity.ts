@@ -23,6 +23,10 @@ export class Student extends BaseEntity {
   @Column('text')
   profilePicture: string
 
+  @IsString()
+  @Column('text', {nullable: true})
+  color: string
+
   @ManyToOne(_ => Batch, batch => batch.students)
   batch: Batch
 

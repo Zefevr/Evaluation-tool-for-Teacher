@@ -12,14 +12,10 @@ export default class BatchController {
   }
 
   @Get('/batches/:id([0-9]+)')
-  async getBatchById(
-    @Param('id') batchId: string
+  getBatch(
+    @Param('id') id: number
   ) {
-    const batchById = await Batch.findOne(batchId)
-    if (!batchById) throw new NotFoundError('Sorry but that Batch does not exist')
-    if (batchById) {
-      return {batchById}
-    }
+    return Batch.findOne(id)
   }
 
   @Post('/batches')

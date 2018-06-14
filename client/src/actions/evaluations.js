@@ -5,6 +5,7 @@ import {isExpired} from '../jwt'
 
 export const FETCH_EVALUATION = "FETCH_EVALUATION"
 export const ADD_EVALUATION = "ADD_EVALUATION"
+//export const ADD_LAST_EVALUATION = 'ADD_LAST_EVALUATION'
 
 export const fetchEvaluation = (id) => (dispatch, getState) => {
   const state = getState()
@@ -25,24 +26,12 @@ export const fetchEvaluation = (id) => (dispatch, getState) => {
     .catch(err => console.error(err))
 }
 
-export const createEvaluation = (student, batch, colour, remarks ) => (dispatch, getState) => {
-  const state = getState()
-  const jwt = state.currentUser.jwt
-
-  const studentId = (window.location.href).split('/').pop()
-  const batchId = ((window.location.href).split('/')[4])
-  console.log((window.location.href).split('/')[4])
-  
-  if (isExpired(jwt)) return dispatch(logout())
-  
+export const addEvaluation = (evaluation) => (dispatch) => {
   request
-    .post(`${baseUrl}/batches/${batchId}/students/${studentId}/evaluations`)
-    .send({ student: studentId, batch: batchId, colour, remarks,  })
-    .then(result => {
-      dispatch({
-        type: ADD_EVALUATION,
-        payload: result.body
-      })
-    })
-    .catch(err => {console.error(err)})
+    .post(`${baseUrl}/evaluations`)
+    .send(evaluation)
+    .then(response => dispatch({
+      type: ADD_EVALUATION,
+      payload: response.body
+    }))
 }

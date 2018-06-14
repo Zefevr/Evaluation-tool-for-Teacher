@@ -1,4 +1,4 @@
-import { JsonController, Get, Post, Patch, Param, Body, BodyParam, NotFoundError, Delete } from 'routing-controllers'
+import { JsonController, Get, Post, Put, Param, Body, BodyParam, NotFoundError, Delete } from 'routing-controllers'
 import { Student } from './entity'
 import { Batch } from '../batches/entity'
 import { Evaluation } from '../evaluations/entity';
@@ -15,14 +15,10 @@ export default class StudentController {
   }
 
   @Get('/students/:id([0-9]+)')
-  async getStudentById(
-    @Param('id') studentId: number
+  getStudents(
+    @Param('id') id: number
   ) {
-    const studentById = await Student.findOne(studentId)
-    if (!studentById) throw new NotFoundError('Sorry but that Student does not exist')
-    if (studentById) {
-      return {studentById}
-    }
+    return Student.findOne(id)
   }
 
   @Post('/students')
@@ -37,22 +33,17 @@ export default class StudentController {
   }
 
   
-  @Patch('/students/:id([0-9]+)')
-  async updateStudent(
-    @Param('id') studentId: number,
-    @Body() update
-  ) {
-    let student = await Student.findOne(studentId)
-    
-    if(student) {
-      student.firstName = update.firstName
-      student.lastName = update.lastName
-      student.profilePicture = update.profilePicture
-      await student.save()
-    }
+  
+@Put('/students/:id')
+async updateStudent(
+  @Param('id') id: number,
+  @Body() update: Partial<Student>
+) {
+  const student = await Student.findOne(id)
+  if (!student) throw new NotFoundError('Cannot find student')
 
-    return student
-  }
+  return Student.merge(student, update).save()
+}
 
   @Delete('/students/:id([0-9]+)')
   async deleteStudent(

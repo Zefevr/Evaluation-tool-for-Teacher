@@ -4,9 +4,9 @@ import createBatch from './createBatch'
 import batch from './batch'
 import student from './student'
 import createStudent from './createStudent'
-import deleteStudent from './deleteStudent'
 import evaluation from './evaluation'
 import createEvaluation from './createEvaluation'
+import students from './students'
 
 export default {
   currentUser,
@@ -15,7 +15,7 @@ export default {
   batch,
   student,
   createStudent,
-  deleteStudent,
   evaluation,
-  createEvaluation
+  createEvaluation,
+  students
 } 
