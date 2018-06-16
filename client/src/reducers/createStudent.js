@@ -6,7 +6,7 @@ export default function(state = [], action ) {
     return action.payload
         
   case ADD_STUDENT:
-    return [...state, action.payload]
+    return [...state, action.payload.entity]
         
   default: 
     return state

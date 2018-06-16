@@ -9,8 +9,7 @@ export default class CreateBatchForm extends PureComponent {
 
 	handleSubmit = (e) => {
 	  e.preventDefault()
-      this.props.onSubmit(this.state)
-      console.log(this.state)
+	  this.props.onSubmit(this.state)
 	}
 
 	handleChange = (event) => {

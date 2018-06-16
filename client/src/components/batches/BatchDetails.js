@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { fetchBatch } from "../../actions/batches";
+import { fetchBatch, fetchAllBatches } from "../../actions/batches";
 import { createStudent, deleteStudent, fetchStudent } from "../../actions/students";
 import CreateStudent from "./CreateStudent";
 import { Link, Redirect } from "react-router-dom";
@@ -12,14 +12,10 @@ import "../../App.css";
 class BatchDetails extends PureComponent {
   state = {}
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.authenticated){
       this.props.fetchBatch(this.props.match.params.id)
     }
-  }
-
-  componentReload() {
-    this.props.fetchBatch(this.props.match.params.id);
   }
 
   fetchStudent(studentId) {
@@ -33,9 +29,11 @@ class BatchDetails extends PureComponent {
   };
 
   deleteStudent(studentId) {
-    this.props.deleteStudent(studentId)
-    this.props.fetchBatch(this.props.match.params.id)
+    this.props.deleteStudent(studentId, parseInt(this.props.match.params.id, 10))
+    /* setTimeout(()=> this.props.fetchBatch(this.props.match.params.id), 1000) */
   }
+
+  
 
 
   render() {
@@ -83,7 +81,7 @@ class BatchDetails extends PureComponent {
     } else {
       randomStudentId = mightAll[Math.floor(Math.random() * mightAll.length)]
     }
-    console.log(randomStudentId.id);
+    
 
     return (
       <div>
@@ -158,8 +156,9 @@ const mapStateToProps = function(state) {
   return {
     authenticated: state.currentUser !== null,
     batch: state.batch,
-    students: state.students 
+    students: state.students,
+    deleteStudent: state.deleteStudent
   };
 };
 
-export default connect(mapStateToProps,{fetchBatch,createStudent,deleteStudent,fetchStudent})(BatchDetails);
+export default connect(mapStateToProps,{fetchBatch,createStudent,deleteStudent,fetchStudent, fetchAllBatches})(BatchDetails);

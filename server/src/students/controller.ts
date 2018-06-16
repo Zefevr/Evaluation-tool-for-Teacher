@@ -26,10 +26,11 @@ export default class StudentController {
     @Body() student: Student,
     @BodyParam('batchId', {required: true}) batchId: string
   ) {
-    const batch = await Batch.findOne(batchId)
-    if(batch instanceof Batch) student.batch = batch
+    const papa = await Batch.findOne(batchId)
+    if(papa instanceof Batch) student.batch = papa
     const entity = await student.save()
-    return { entity }
+    const batch = await Batch.findOne(papa!.id)
+    return { entity, batch }
   }
 
   
@@ -51,12 +52,15 @@ async updateStudent(
   ) {
     const student = await Student.findOne(studentId)
     if (!student) throw new NotFoundError('Sorry but that Student does not exist')
-    if(student) {
-      const evaluations = await Evaluation.find({student: student})
-      evaluations.map(evaluation => evaluation.remove())
-      await student.remove()
-    }
-    return 'The Student and his/her evaluations were removed successfully'
+    
+      const evaluations = await Evaluation.find({where: {student: student}})
+      const papa = await Batch.findOne({where: {student: student}})
+      if (!evaluations) throw new NotFoundError('Sorry but that Student does not exist')
+      await Evaluation.remove(evaluations)
+      await Student.remove(student)
+      const batch = await Batch.findOne(papa!.id)
+    
+    return {batch}
   }
 
 }

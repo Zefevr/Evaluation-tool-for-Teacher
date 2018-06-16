@@ -23,7 +23,7 @@ export class Student extends BaseEntity {
   @Column('text')
   profilePicture: string
 
-  @IsString()
+  
   @Column('text', {nullable: true})
   color: string
 

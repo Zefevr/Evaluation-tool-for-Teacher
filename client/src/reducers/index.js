@@ -7,6 +7,7 @@ import createStudent from './createStudent'
 import evaluation from './evaluation'
 import createEvaluation from './createEvaluation'
 import students from './students'
+/* import deleteStudent from './deleteStudent' */
 
 export default {
   currentUser,
@@ -17,5 +18,6 @@ export default {
   createStudent,
   evaluation,
   createEvaluation,
-  students
+  students,
+ /*  deleteStudent */
 } 

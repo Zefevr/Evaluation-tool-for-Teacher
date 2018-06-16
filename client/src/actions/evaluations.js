@@ -5,7 +5,6 @@ import {isExpired} from '../jwt'
 
 export const FETCH_EVALUATION = "FETCH_EVALUATION"
 export const ADD_EVALUATION = "ADD_EVALUATION"
-//export const ADD_LAST_EVALUATION = 'ADD_LAST_EVALUATION'
 
 export const fetchEvaluation = (id) => (dispatch, getState) => {
   const state = getState()

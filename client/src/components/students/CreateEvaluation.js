@@ -21,7 +21,7 @@ class CreateEvaluation extends PureComponent {
       studentId: Number((window.location.href).split('/').pop())
     };
 
-    //this.handleChange = this.handleChange.bind(this);
+    
   }
 
   handleSubmit = e => {

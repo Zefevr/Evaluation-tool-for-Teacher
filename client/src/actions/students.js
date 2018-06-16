@@ -57,12 +57,13 @@ export const createStudent = (student) => (dispatch) => {
     .send(student)
     .then(response => dispatch({
       type: ADD_STUDENT,
-      payload: response.body.entity
+      payload: response.body
     }))
 }
 
-export const deleteStudent = studentId => (dispatch, getState) => {
+export const deleteStudent = (studentId) => (dispatch, getState) => {
   const state = getState()
+
   if (!state.currentUser) return null
   const jwt = state.currentUser.jwt
 
@@ -72,7 +73,7 @@ export const deleteStudent = studentId => (dispatch, getState) => {
     .then(response =>
       dispatch({
         type: DELETE_STUDENT,
-        payload: state
+        payload: response.body.batch
       })
     );
 };
