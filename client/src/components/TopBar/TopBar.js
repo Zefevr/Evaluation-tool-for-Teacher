@@ -20,6 +20,11 @@ const TopBar = (props) => {
           /batches$/.test(location.pathname) &&
           <Button color="inherit" onClick={() => history.push('/logout')}>Log out</Button>
         }
+
+        {location.pathname === "/batches/1" && (
+          <Button onClick={() => history.push("/logout")}>Log out</Button>
+        )}
+
       </Toolbar>
     </AppBar>
   )

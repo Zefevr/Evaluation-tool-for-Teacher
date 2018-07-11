@@ -1,9 +1,8 @@
 import React, { PureComponent } from "react"
 import { connect } from "react-redux"
 import { fetchAllBatches } from '../../actions/batches'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Moment from 'moment'
-//import Paper from "@material-ui/core/Paper"
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card';
@@ -44,7 +43,7 @@ class BatchesList extends PureComponent {
   }
   
   render(){     
-    const {batches, authenticated} = this.props
+    const {batches, authenticated, history} = this.props
 
     if (!authenticated) return (
       <Redirect to="/login" />
@@ -57,12 +56,7 @@ class BatchesList extends PureComponent {
       <div>
         {batches.map(batch => this.renderBatch(batch))}
         <div>
-          <button>
-            <Link
-              to={`/batch/create`}>
-            Create a new Batch
-            </Link>
-          </button>
+          <Button className='createButton' onClick={() => history.push("/batch/create")}>Create new Batch</Button>
         </div>
         
       </div>

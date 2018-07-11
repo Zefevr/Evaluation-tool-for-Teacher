@@ -23,11 +23,17 @@
   color: rgb(12, 2, 2);
   display: flex;
   flex-direction: column;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .loginButton {
+  margin-bottom: 10px !important;
+  margin-top: 20px !important
+}
+
+.createButton {
   margin-bottom: 10px !important;
   margin-top: 20px !important
 }

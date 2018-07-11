@@ -6,6 +6,7 @@ import CreateStudent from "./CreateStudent";
 import { Link, Redirect } from "react-router-dom";
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
+import Image from "../../components/images/image";
 import "../../App.css";
 
 
@@ -30,7 +31,6 @@ class BatchDetails extends PureComponent {
 
   deleteStudent(studentId) {
     this.props.deleteStudent(studentId, parseInt(this.props.match.params.id, 10))
-    /* setTimeout(()=> this.props.fetchBatch(this.props.match.params.id), 1000) */
   }
 
   
@@ -38,11 +38,14 @@ class BatchDetails extends PureComponent {
 
   render() {
     const { batch, authenticated } = this.props;
-    if (!batch) return null
-
+    
     if (!authenticated) return (
       <Redirect to="/login" />
     )
+    
+    if (!batch) return null
+
+    
 
     const allStudents = batch.students.length
     const redStudents = batch.students.filter(student => student.color === 'Red').length
@@ -123,7 +126,9 @@ class BatchDetails extends PureComponent {
                     <td>{student.id}</td>
                     <td>{student.firstName}</td>
                     <td>{student.lastName}</td>
-                    <td>{student.profilePicture}</td>
+                    <td>
+                      <Image content={student.profilePicture} />
+                    </td>
                     <td>
                       {" "}
                       <Button
