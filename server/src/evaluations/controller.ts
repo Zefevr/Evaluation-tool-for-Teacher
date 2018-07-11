@@ -7,14 +7,10 @@ import { Teacher } from '../teachers/entity'
 export default class EvaluationController {
 
   @Get('/evaluations/:id([0-9]+)')
-  async getEvaluationById(
-    @Param('id') evaluationId: number
+  getEvaluation(
+    @Param('id') id: number
   ) {
-    const evaluationById = await Evaluation.findOne(evaluationId)
-    if (!evaluationById) throw new NotFoundError('Sorry but that Table does not exist')
-    if (evaluationById) {
-      return {evaluationById}
-    }
+    return Evaluation.findOne(id)
   }
 
   @Post('/evaluations')
