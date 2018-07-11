@@ -23,19 +23,19 @@ _______________________________________________________________________________
 
 ### List of features (User Stories):
 
-• As a Teacher I can sign into the tool with my email and password to start using it.
-• As a Teacher, after I signed in, I see a (list of) current classes, identifiable by their Batch number
+1. As a Teacher I can sign into the tool with my email and password to start using it.
+2. As a Teacher, after I signed in, I see a (list of) current classes, identifiable by their Batch number
 (e.g. Batch #1), start date, and end date.
-• As a Teacher, I can create a new class by giving it a Batch number, start date, and end date.
-• As a Teacher I can add, edit, remove students in a class. To add a student I need to provide: 1)
+3. As a Teacher, I can create a new class by giving it a Batch number, start date, and end date.
+4. As a Teacher I can add, edit, remove students in a class. To add a student I need to provide: 1)
 their full name, 2) (a link to) their profile picture.
-• As a Teacher, I can click on a class, after which I see a grid of all the students by their name and
+5. As a Teacher, I can click on a class, after which I see a grid of all the students by their name and
 photo, and the last colour code given to them. Above the students grid, I see a bar with 1-3
 segments, showing me the percentage (%) of students evaluated GREEN, YELLOW, and RED.
-• As a Teacher, when I click on a student, I can click on GREEN, YELLOW, or RED, fill in
+6. As a Teacher, when I click on a student, I can click on GREEN, YELLOW, or RED, fill in
 the date (defaults to today), and a remark.
-• As a Teacher, I can edit my own evaluations.
-• ALGORITHM PART = As a Teacher, from the class view I can click a button “ASK A
+7. As a Teacher, I can edit my own evaluations.
+8. ALGORITHM PART = As a Teacher, from the class view I can click a button “ASK A
 QUESTION”. It shows me the name and picture of a random student to ask a question. Not
 entirely random though: RED students get ~45% of the questions YELLOW students
 ~35%, and GREEN students ~20%.
