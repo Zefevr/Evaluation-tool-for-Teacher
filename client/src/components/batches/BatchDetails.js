@@ -37,7 +37,7 @@ class BatchDetails extends PureComponent {
 
 
   render() {
-    const { batch, authenticated } = this.props;
+    const { batch, authenticated, history } = this.props;
     
     if (!authenticated) return (
       <Redirect to="/login" />
@@ -90,7 +90,7 @@ class BatchDetails extends PureComponent {
       <div>
         {!batch.id && <div>Loading...</div>}
         {batch.id && (
-          <Paper className="styles" elevation={4}>
+          <Paper className="batches" elevation={4}>
             <br />
             <div>
               <Link
@@ -104,16 +104,16 @@ class BatchDetails extends PureComponent {
 
             <h1>Batch #{batch.batchId}</h1>
 
-            <div style={{border: "1px solid black"}}>
+            <div style={{border: "1px solid black", margin: "10px"}}>
               <div style={{width: Math.floor( redStudentsPercentage ) + '%', backgroundColor: 'red', float: "left", color: "white", textAlign: "center"}}>{Math.floor(redStudentsPercentage)}%</div>
               <div style={{width: Math.floor( yellowStudentsPercentage ) + '%', backgroundColor: 'yellow', float: "left", textAlign: "center"}}>{Math.floor(yellowStudentsPercentage)}%</div>
               <div style={{width: Math.floor( greenStudentsPercentage ) + '%', backgroundColor: 'green', float: "left", color: "white", textAlign: "center"}}>{Math.floor(greenStudentsPercentage)}%</div>
               <div style={{clear: "both"}}> </div>
             </div>
+            <br />
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>First name</th>
                   <th>Last name</th>
                   <th>Picture</th>
@@ -123,7 +123,6 @@ class BatchDetails extends PureComponent {
               <tbody>
                 {batch.students.map((student) => (
                   <tr key={student.id}>
-                    <td>{student.id}</td>
                     <td>{student.firstName}</td>
                     <td>{student.lastName}</td>
                     <td>
@@ -131,21 +130,15 @@ class BatchDetails extends PureComponent {
                     </td>
                     <td>
                       {" "}
+                      <Button onClick={() => history.push(`/students/${student.id}`)}>Student profile</Button>
+                    </td>
+                    <td>
                       <Button
                         onClick={() => this.deleteStudent(student.id)}
                       >
-                      Delete Student
+                        Delete
                       </Button>
-                    </td>
-                    <td>
                       {" "}
-                      <Link
-                        className="link"
-                        to={`/students/${student.id}`}
-                        onClick={() => this.fetchStudent(student.id)}
-                      >
-                      Student profile
-                      </Link>
                     </td>
                   </tr>
                 ))}

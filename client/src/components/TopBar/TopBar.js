@@ -8,7 +8,8 @@ import {userId} from '../../jwt'
 import {connect} from 'react-redux'
 
 const TopBar = (props) => {
-  const { location, history } = props
+  const { location, history, batch } = props
+  //console.log(batch.id)
 
   return (
     <AppBar position="absolute" style={{zIndex:10}}>
@@ -21,7 +22,7 @@ const TopBar = (props) => {
           <Button color="inherit" onClick={() => history.push('/logout')}>Log out</Button>
         }
 
-        {location.pathname === "/batches/1" && (
+        {location.pathname === `/batches/1` && (
           <Button onClick={() => history.push("/logout")}>Log out</Button>
         )}
 
@@ -32,7 +33,8 @@ const TopBar = (props) => {
 
 const mapStateToProps = state => ({
   user: state.currentUser && state.users &&
-    state.users[userId(state.currentUser.jwt)]
+    state.users[userId(state.currentUser.jwt)],
+  batch: state.batch
 })
 
 export default withRouter(

@@ -14,15 +14,20 @@ class App extends Component {
   render() {
     return (
       <Router>
+       
         <div className="App">
-          <TopBar/>
-          <Route exact path="/login" component={LoginForm} />
-          <Route exact path="/logout" component={LogoutPage} />
-          <Route exact path="/batches" component={BatchList} />
-          <Route exact path="/batch/create" component={CreateBatch} />
-          <Route exact path="/batches/:id" component={BatchDetails} />
-          <Route exact path="/students/:id" component={StudentDetails} />
-          <Route exact path="/" render={ () => <Redirect to="/login" /> } />
+          <nav>
+            <TopBar />
+          </nav>
+          <main style={{ marginTop: 75, marginBottom: 0 }}>
+            <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/logout" component={LogoutPage} />
+            <Route exact path="/batches" component={BatchList} />
+            <Route exact path="/batch/create" component={CreateBatch} />
+            <Route exact path="/batches/:id" component={BatchDetails} />
+            <Route exact path="/students/:id" component={StudentDetails} />
+            <Route exact path="/" render={ () => <Redirect to="/login" /> } />
+          </main>
         </div>
       </Router>
     );
