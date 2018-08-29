@@ -56,7 +56,7 @@ class StudentDetails extends PureComponent {
 
     return (
       <div>
-        <Paper className="styles">
+        <Paper className="batches">
           {this.state.edit && <CreateStudent onSubmit={this.updateStudent} />}
           {!this.state.edit && (
             <div>
