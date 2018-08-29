@@ -24,7 +24,8 @@ export default class EvaluationController {
     const teacher = await Teacher.findOne(teacherId)
     if(teacher instanceof Teacher) evaluation.teacher = teacher
     const entity = await evaluation.save()
-    return { entity }
+    const updatedStudent = await Student.findOne(student!.id)
+    return { entity, updatedStudent }
   }
 
   @Patch('/evaluations/:id([0-9]+)')

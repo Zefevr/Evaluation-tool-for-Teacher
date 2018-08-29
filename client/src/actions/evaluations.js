@@ -31,6 +31,6 @@ export const addEvaluation = (evaluation) => (dispatch) => {
     .send(evaluation)
     .then(response => dispatch({
       type: ADD_EVALUATION,
-      payload: response.body
+      payload: response.body.updatedStudent
     }))
 }
