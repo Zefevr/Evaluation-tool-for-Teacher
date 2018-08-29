@@ -3,7 +3,7 @@ import { BaseEntity } from 'typeorm/repository/BaseEntity'
 import { IsString, IsDate } from 'class-validator'
 import { Type } from 'class-transformer';
 import { Student } from '../students/entity'
-import { Teacher } from '../teachers/entity'
+import  Teacher  from '../teachers/entity'
 
 
 @Entity()

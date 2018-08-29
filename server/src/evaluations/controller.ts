@@ -1,7 +1,7 @@
 import { JsonController, Get, Post, Patch, Param, Body, BodyParam, NotFoundError } from 'routing-controllers'
 import { Evaluation } from './entity'
 import { Student } from '../students/entity'
-import { Teacher } from '../teachers/entity'
+import  Teacher  from '../teachers/entity'
 
 @JsonController()
 export default class EvaluationController {

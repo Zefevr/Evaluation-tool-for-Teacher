@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt'
 import { Evaluation } from '../evaluations/entity';
 
 @Entity()
-export class Teacher extends BaseEntity {
+export default class Teacher extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id?: number

@@ -1,5 +1,5 @@
 import { JsonController, Get, Post, Param, Body, NotFoundError, Authorized } from 'routing-controllers'
-import { Teacher } from './entity'
+import  Teacher  from './entity'
 
 @JsonController()
 export default class TeacherController {
