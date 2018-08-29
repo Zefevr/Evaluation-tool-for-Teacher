@@ -33,7 +33,7 @@ class CreateStudent extends PureComponent {
 	  return (
 	    <form onSubmit={this.handleSubmit}>
 	      <div>
-	        <label htmlFor="firstName">first name: </label>
+	        <label htmlFor="firstName">First name: </label>
 	        <input name="firstName" id="firstName" value={
 	          this.state.firstName || ''
 	        } onChange={ this.handleChange } />

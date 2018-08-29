@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-//import {createKoaServer} from "routing-controllers"
 import { Action, BadRequestError, useKoaServer } from "routing-controllers";
 import setupDb from "./db";
 import { verify } from "./jwt";

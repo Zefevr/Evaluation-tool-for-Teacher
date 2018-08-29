@@ -7,35 +7,56 @@ import {withRouter} from 'react-router'
 import {userId} from '../../jwt'
 import {connect} from 'react-redux'
 
+
 const TopBar = (props) => {
-  const { location, history, batch } = props
-  //console.log(batch.id)
+  const { location, history } = props
 
   return (
-    <AppBar position="absolute" style={{zIndex:10}}>
+    <AppBar
+      position="absolute"
+      color="primary"
+      align="center"
+      style={{ zIndex: 10 }}
+    >
       <Toolbar>
-        <Typography variant="title" color="inherit" style={{flex: 1}}>
-           Evaluation tool for Teachers
+        <Typography
+          variant="title"
+          color="inherit"
+          align="left"
+          style={{ flex: 1 }}
+        >
+          Evaluation Tool for Teachers
         </Typography>
-        {
-          /batches$/.test(location.pathname) &&
-          <Button color="inherit" onClick={() => history.push('/logout')}>Log out</Button>
-        }
-
-        {location.pathname === `/batches/1` && (
-          <Button onClick={() => history.push("/logout")}>Log out</Button>
+        <Button color="inherit" href="/batches">
+          HOME
+        </Button>
+        {location.pathname.indexOf("signup") > 0 && (
+          <Button color="inherit" onClick={() => history.push("/login")}>
+            Login
+          </Button>
         )}
-
+      
+        {location.pathname.indexOf("batches/") > 0 && (
+          <Button color="inherit" onClick={() => history.push("/batches")}>
+            All Batches
+          </Button>
+        )}
+        {/batches$/.test(location.pathname) && (
+          <Button color="inherit" onClick={() => history.push("/logout")}>
+            Log out
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   )
 }
 
 const mapStateToProps = state => ({
-  user: state.currentUser && state.users &&
-    state.users[userId(state.currentUser.jwt)],
-  batch: state.batch
-})
+  user:
+    state.currentUser &&
+    state.users &&
+    state.users[userId(state.currentUser.jwt)]
+});
 
 export default withRouter(
   connect(mapStateToProps)(TopBar)

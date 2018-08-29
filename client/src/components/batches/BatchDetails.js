@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { fetchBatch, fetchAllBatches } from "../../actions/batches";
 import { createStudent, deleteStudent, fetchStudent } from "../../actions/students";
 import CreateStudent from "./CreateStudent";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Image from "../../components/images/image";
@@ -11,12 +11,19 @@ import "../../App.css";
 
 
 class BatchDetails extends PureComponent {
-  state = {}
+  constructor(props) {
+    super(props);
+    this.state = { id: this.props.match.params.id };
+  }
 
   componentWillMount() {
     if (this.props.authenticated){
       this.props.fetchBatch(this.props.match.params.id)
     }
+  }
+
+  componentDidMount() {
+    this.props.fetchBatch(this.props.match.params.id);
   }
 
   fetchStudent(studentId) {
@@ -38,16 +45,28 @@ class BatchDetails extends PureComponent {
 
   render() {
     const { batch, authenticated, history } = this.props;
+   
     
     if (!authenticated) return (
       <Redirect to="/login" />
     )
     
-    if (!batch) return null
-
+    if (!batch ) {
+      this.componentDidMount();
+      return <div>...</div>;
+    }
+    const allStudents = batch.students.length
+    if (batch.students.length === 0){this.componentWillMount();
+      return (
+        <div>
+          <h4>This Batch does not have students yet</h4>
+          <h4>Please Add a Student:</h4>
+          <CreateStudent onSubmit={this.addStudent} />
+        </div>
+      )
+    }
     
 
-    const allStudents = batch.students.length
     const redStudents = batch.students.filter(student => student.color === 'Red').length
     const redStudentsPercentage = redStudents / allStudents * 100
     const yellowStudents = batch.students.filter(student => student.color === 'Yellow').length
@@ -92,16 +111,6 @@ class BatchDetails extends PureComponent {
         {batch.id && (
           <Paper className="batches" elevation={4}>
             <br />
-            <div>
-              <Link
-                className="link"
-                to={`/students/${randomStudentId.id}`}
-                onClick={() => this.fetchStudent(randomStudentId.id)}
-              >
-              Ask a Question
-              </Link>
-            </div>
-
             <h1>Batch #{batch.batchId}</h1>
 
             <div style={{border: "1px solid black", margin: "10px"}}>
@@ -146,6 +155,16 @@ class BatchDetails extends PureComponent {
             </table>
             <h1>Add new student</h1>
             <CreateStudent onSubmit={this.addStudent} />
+            <div>
+              <Button
+                color="secondary"
+                variant="raised"
+                href={`/students/${randomStudentId.id}`}
+                onClick={() => this.fetchStudent(randomStudentId.id)}
+              >
+              Ask a Question
+              </Button>
+            </div>
           </Paper>)}
       </div>
     )}}
