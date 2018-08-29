@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import { connect } from 'react-redux'
 import { createStudent } from '../../actions/students'
+import Button from "@material-ui/core/Button"
 
 class CreateStudent extends PureComponent {
   constructor(props) {
@@ -46,7 +47,7 @@ class CreateStudent extends PureComponent {
 	      </div>
 
 	      <div>
-	        <label htmlFor="profilePicture">profilePicture url: </label>
+	        <label htmlFor="profilePicture">Picture url: </label>
 	        <input name="profilePicture" id="profilePicture" value={
 	          this.state.profilePicture ||  ''
 	        } onChange={ this.handleChange } />
@@ -59,7 +60,7 @@ class CreateStudent extends PureComponent {
 	        } onChange={ this.handleChange } />
 	      </div>
 
-	      <button type="submit" onSubmit={this.handleSubmit}>Save</button>
+	      <Button type="submit" onSubmit={this.handleSubmit}>Save</Button>
 	    </form>
 	  )
 	}
